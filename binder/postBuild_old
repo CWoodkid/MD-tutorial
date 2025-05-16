@@ -1,0 +1,19 @@
+pip install matplotlib
+pip install ipywidgets
+pip install jupyter_contrib_nbextensions
+pip install MDanalysis
+pip install jupyter
+pip install pyqt5
+pip install wheel
+pip install mdtraj
+pip install nglview
+python -m ipykernel install --sys-prefix
+jupyter contrib nbextension install --sys-prefix
+jupyter nbextension enable --py --sys-prefix widgetsnbextension
+jupyter nbextension enable --py --sys-prefix nglview
+jupyter nbextension enable scratchpad/main
+jupyter nbextension enable rubberband/main
+jupyter nbextension enable exercise2/main
+jupyter nbextension enable toggle_all_line_numbers/main
+jupyter nbextension enable execute_time/ExecuteTime
+jupyter nbextension enable latex_envs/latex_envs
