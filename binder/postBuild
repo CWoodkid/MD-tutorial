@@ -1,40 +1,39 @@
 #!/bin/bash
-set -ex # Exit immediately if a command exits with a non-zero status and print commands
+set -ex
 
 echo "Starting postBuild script..."
 
 echo "Updating pip and installing wheel..."
 pip install --upgrade pip wheel
 
-echo "Installing core Python packages..."
+echo "Installing an older, compatible version of notebook..."
+pip install "notebook~=6.5.0" # Or another 6.x version
+
+echo "Installing Python packages..."
 pip install matplotlib
 pip install ipywidgets
-pip install MDAnalysis # Corrected
-pip install jupyter # Usually pre-installed
+# pyqt5 is already installed via apt (python3-pyqt5.qtopengl)
+# pip install pyqt5 # You might be able to remove this pip install if the apt version is sufficient
+pip install MDAnalysis # Ensure this is the correct capitalization
+pip install jupyter # Usually already present, but explicit install is okay
 pip install mdtraj
 pip install nglview
-# Consider if pyqt5 is truly needed. If so, ensure apt.txt has its system deps.
-# If it causes issues, it's a prime candidate for temporary removal during debugging.
-pip install pyqt5
-
-echo "Installing jupyter_contrib_nbextensions..."
-pip install jupyter_contrib_nbextensions
+pip install jupyter_contrib_nbextensions # Install after notebook<7
 
 echo "Installing IPython kernel..."
 python -m ipykernel install --sys-prefix
 
-echo "Installing Jupyter notebook extensions (from contrib)..."
-jupyter contrib nbextension install --sys-prefix
+echo "Installing and enabling Jupyter notebook extensions..."
+jupyter contrib nbextension install --sys-prefix # This should now work
 
-echo "Enabling core extensions (usually handled by package install, but explicit can be okay)..."
+echo "Enabling core extensions..."
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
-jupyter nbextension enable --py --sys-prefix nglview # nglview should do this automatically
+jupyter nbextension enable --py --sys-prefix nglview
 
-echo "Enabling other contrib extensions (verify these names are correct and extensions are compatible)..."
-# If these fail, the extension might not exist or be incompatible from the jupyter_contrib_nbextensions bundle
+echo "Enabling other contrib extensions..."
 jupyter nbextension enable scratchpad/main
 jupyter nbextension enable rubberband/main
-# jupyter nbextension enable exercise2/main # What provides this? If it's custom, ensure it's installed.
+jupyter nbextension enable exercise2/main
 jupyter nbextension enable toggle_all_line_numbers/main
 jupyter nbextension enable execute_time/ExecuteTime
 jupyter nbextension enable latex_envs/latex_envs
