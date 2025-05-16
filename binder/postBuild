@@ -6,29 +6,30 @@ echo "Starting postBuild script..."
 echo "Updating pip and installing wheel..."
 pip install --upgrade pip wheel
 
-echo "Installing an older, compatible version of notebook..."
-pip install "notebook~=6.5.0" # Or another 6.x version
-
-echo "Installing Python packages..."
+echo "Installing primary Python packages (let nglview manage notebook version for now)..."
 pip install matplotlib
 pip install ipywidgets
-# pyqt5 is already installed via apt (python3-pyqt5.qtopengl)
-# pip install pyqt5 # You might be able to remove this pip install if the apt version is sufficient
-pip install MDAnalysis # Ensure this is the correct capitalization
-pip install jupyter # Usually already present, but explicit install is okay
+pip install MDAnalysis # Ensure correct capitalization
+pip install jupyter    # Usually pre-installed, but okay
 pip install mdtraj
-pip install nglview
-pip install jupyter_contrib_nbextensions # Install after notebook<7
+pip install nglview    # This might pull in notebook>=7
+
+# ---- CRITICAL STEP: Force notebook version to 6.x AFTER nglview ----
+echo "Downgrading/pinning notebook to a compatible version for contrib extensions..."
+pip install "notebook~=6.5.0" # This will uninstall notebook 7.x if nglview installed it, and install 6.5.x
+
+echo "Installing jupyter_contrib_nbextensions (now that notebook 6.x is in place)..."
+pip install jupyter_contrib_nbextensions
 
 echo "Installing IPython kernel..."
 python -m ipykernel install --sys-prefix
 
 echo "Installing and enabling Jupyter notebook extensions..."
-jupyter contrib nbextension install --sys-prefix # This should now work
+jupyter contrib nbextension install --sys-prefix # Should now work with notebook 6.x
 
 echo "Enabling core extensions..."
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
-jupyter nbextension enable --py --sys-prefix nglview
+jupyter nbextension enable --py --sys-prefix nglview # nglview should still register its assets correctly
 
 echo "Enabling other contrib extensions..."
 jupyter nbextension enable scratchpad/main
