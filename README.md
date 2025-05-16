@@ -1,4 +1,4 @@
-[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kevinsawade/start-science-here/HEAD?urlpath=%2Ftree%2F)
+[![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CWoodkid/MD-tutorial/HEAD)
 [![MadeWithLove](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/kevinsawade/bcd9d09bc682b4743b84fc6e967478ac/raw/endpoint.json)](https://www.chemie.uni-konstanz.de/ag-peter/)
 
 # Start Science Here!
@@ -10,7 +10,7 @@ If you are currently viewing this document on GitHub.com it is highly advised, t
 
 ## An introduction to scientific programming, python, molecular dynamics and more
 
-Welcome to start science here! This project is meant to introduce you to the world of scientific programming and teach you the most important concepts. This project is subdivided into different main topics. You can dive right into the python tutorial by visiting: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/kevinsawade/start-science-here/HEAD?urlpath=%2Ftree%2Ffilepath=python_tutorial). If you want to take the full course, take the recommended route:
+Welcome to start science here! This project is meant to introduce you to the world of scientific programming and teach you the most important concepts. This project is subdivided into different main topics. You can dive right into the python tutorial by visiting: [![Binder](https://mybinder.org/badge_logo.svg)](https://mybinder.org/v2/gh/CWoodkid/MD-tutorial/HEAD). If you want to take the full course, take the recommended route:
 
 1. Working with Linux from the command line
     * Introduction to the Unix operating systems, the shell, commands, programs.
