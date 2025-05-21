@@ -13,6 +13,7 @@ pip install MDAnalysis # Ensure correct capitalization
 pip install jupyter    # Usually pre-installed, but okay
 pip install mdtraj
 pip install nglview    # This might pull in notebook>=7
+pip install plotext
 
 # ---- CRITICAL STEP: Force notebook version to 6.x AFTER nglview ----
 echo "Downgrading/pinning notebook to a compatible version for contrib extensions..."
