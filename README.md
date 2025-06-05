@@ -6,7 +6,7 @@
 
 ## Going to the documentation page
 
-If you are currently viewing this document on GitHub.com it is highly advised, that you move over to the documentation page at https://kevinsawade.github.io/start-science-here/. This page is much more user-friendly and contains content that cannot be rendered at GitHub.com
+If you are currently viewing this document on GitHub.com it is highly advised, that you move over to the documentation page at http://cwoodkid.github.io/MD-tutorial/. This page is much more user-friendly and contains content that cannot be rendered at GitHub.com
 
 ## An introduction to scientific programming, python, molecular dynamics and more
 
