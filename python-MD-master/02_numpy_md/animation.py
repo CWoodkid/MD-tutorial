@@ -2,7 +2,7 @@
 
 import matplotlib.pyplot as plt
 from matplotlib.animation import FuncAnimation
-from IPython.display import Video
+from IPython.display import Video, clear_output, display
 import numpy as np
 
 # Use a non-interactive backend to ensure the script runs without needing a display window.
@@ -97,3 +97,122 @@ def plot_trajectory_and_error(trajectory_time, trajectory_numerical, trajectory_
 
     fig.tight_layout(pad=3.0)
     plt.show()
+
+
+# ===================================================================
+# NEW FUNCTION for Multi-Particle Simulation
+# ===================================================================
+def create_multiparticle_animation(full_trajectory, radii, colors, box_size, video_filename='multi_particle_animation.mp4'):
+    """
+    Creates an animation for a system of multiple interacting particles.
+    """
+    fig, ax = plt.subplots(figsize=(8, 8))
+    ax.set_aspect('equal')
+    ax.set_xlim(0, box_size)
+    ax.set_ylim(0, box_size)
+    ax.set_title("Multi-Particle Simulation")
+
+    sizes = (radii * 150)**2
+    scatter = ax.scatter(full_trajectory[0][:, 0], full_trajectory[0][:, 1], s=sizes, c=colors)
+
+    def animate_frame(frame_number):
+        positions_at_frame = full_trajectory[frame_number]
+        scatter.set_offsets(positions_at_frame)
+        return scatter,
+
+    ani = FuncAnimation(fig, animate_frame, frames=len(full_trajectory), blit=True)
+    
+    print(f"Creating video file: {video_filename}...")
+    ani.save(video_filename, writer='ffmpeg', dpi=100)
+    plt.close(fig)
+    print("Video created successfully!")
+    return Video(video_filename)
+
+
+# ===================================================================
+# NEW FUNCTION for Multi-Particle Simulation
+# ===================================================================
+def run_live_simulation(simulation, n_steps):
+    """
+    Takes a simulation object and runs it for n_steps, displaying a live animation
+    in a Jupyter Notebook.
+
+    Args:
+        simulation: An object that has attributes `positions`, `radius`, `box_size`
+                    and a method `update_step()`.
+        n_steps (int): The number of steps to run the simulation for.
+    """
+    
+    # Create the plot figure and axes
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    # This is the main simulation loop
+    for step in range(n_steps):
+        # 1. Run one step of the simulation's physics
+        simulation.update_step()
+        
+        # 2. Draw the current state of the simulation
+        
+        # Set the size and color for all balls
+        sizes = (simulation.radius * 150)**2
+        color = 'dodgerblue'
+        
+        # Create the scatter plot of all ball positions
+        ax.scatter(simulation.positions[:, 0], simulation.positions[:, 1], s=sizes, c=color)
+        
+        # Configure the plot appearance
+        ax.set_ylim((0, simulation.box_size))
+        ax.set_xlim((0, simulation.box_size))
+        ax.text(0.4 * simulation.box_size, 0.9 * simulation.box_size, 'step ' + str(step),
+                     bbox={'facecolor':'white', 'alpha':0.5, 'pad':7})
+        ax.set_aspect('equal', adjustable='box')
+        
+        # Use IPython display tools for live animation
+        clear_output(True)
+        display(fig)
+        
+        # Clear the axes for the next drawing
+        ax.cla()
+        
+    # Close the plot at the very end
+    plt.close(fig)
+
+
+
+
+def run_live_simulation_c(simulation, n_steps):
+    """
+    Takes a simulation object and runs it for n_steps, displaying a live animation.
+    This version is updated to handle particles with individual colors and radii.
+    """
+    
+    fig, ax = plt.subplots(figsize=(8, 8))
+
+    for step in range(n_steps):
+        # 1. Run one step of the simulation's physics
+        simulation.update_step()
+        
+        # 2. Draw the current state
+        
+        # Get sizes and colors directly from the simulation object
+        sizes = (simulation.radii * 150)**2
+        colors = simulation.colors
+        
+        ax.scatter(simulation.positions[:, 0], simulation.positions[:, 1], s=sizes, c=colors)
+        
+        # Configure plot appearance
+        ax.set_ylim((0, simulation.box_size))
+        ax.set_xlim((0, simulation.box_size))
+        ax.text(0.4 * simulation.box_size, 0.9 * simulation.box_size, 'step ' + str(step),
+                     bbox={'facecolor':'white', 'alpha':0.5, 'pad':7})
+        ax.set_aspect('equal', adjustable='box')
+        
+        # Use IPython display tools for live animation
+        clear_output(True)
+        display(fig)
+        
+        # Clear the axes for the next drawing
+        ax.cla()
+        
+    plt.close(fig)
+    
