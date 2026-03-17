@@ -35,7 +35,7 @@ There is no set up required to follow along with this tutorial. It can take thre
 
 ## Linux Tutorial
 
-The linux tutorial will guide you through your first experiences with a command-line interface. Please use the page from the documentation under https://kevinsawade.github.io/start-science-here/linux_tutorial.html
+The linux tutorial will guide you through your first experiences with a command-line interface. Please use the page from the documentation under [https://kevinsawade.github.io/start-science-here/linux_tutorial.html](https://kevinsawade.github.io/start-science-here/index.html)
 
 ## Python Tutorial
 
@@ -43,8 +43,8 @@ The python tutorial is a very comprehensive non-linear tutorial of the core pyth
 
 - Core Python:
  - [Datatypes](https://kevinsawade.github.io/start-science-here/python_tutorial/basics_00_datatypes.html}
- - [Functions and Classes](https://kevinsawade.github.io/start-science-here/python_tutorial/basics_01_functions_classes.html)
- - [Decorators](https://kevinsawade.github.io/start-science-here/python_tutorial/basics_01_functions_classes.html)
+ - [Functions and Classes]([https://kevinsawade.github.io/start-science-here/python_tutorial/basics_01_functions_classes.html](https://kevinsawade.github.io/start-science-here/index.html))
+ - [Decorators]([https://kevinsawade.github.io/start-science-here/python_tutorial/basics_01_functions_classes.html](https://kevinsawade.github.io/start-science-here/index.html))
 - Python Packages
  - NumPy
  - Pandas
