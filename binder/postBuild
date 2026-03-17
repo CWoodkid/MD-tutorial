@@ -32,7 +32,7 @@ pip install "nglview>=2.7.7,<3.0"
 
 # ---- FORCE NOTEBOOK 6 ----
 
-Downgrading/pinning notebook to a compatible version for contrib extensions...
+# Downgrading/pinning notebook to a compatible version for contrib extensions...
 
 echo "Downgrading/pinning notebook to a compatible version for contrib extensions..."
 pip install "notebook>=6.5.0,<7.0"
