@@ -1,73 +1,54 @@
 #!/bin/bash
 set -ex
 
-# Starting postBuild script...
-
+# Log start
 echo "Starting postBuild script..."
 
-# Updating pip and installing wheel...
-
+# 1. Update core pip tools
 echo "Updating pip and installing wheel..."
 pip install --upgrade pip wheel
 
-# Installing primary Python packages...
-
+# 2. Install primary Python packages
 echo "Installing primary Python packages..."
-pip install matplotlib
-pip install MDAnalysis
-pip install jupyter
-pip install mdtraj
-pip install plotext
-pip install ipympl
+pip install matplotlib MDAnalysis jupyter mdtraj plotext ipympl
 
-#---- CRITICAL FIX FOR NGLVIEW ERROR ----
-
-# We install versions that are stable with Notebook 6.5.x
-
-# This fixes "Failed to load model class 'ColormakerRegistryModel'" and "NGLModel"
-
+# 3. FIX FOR NGLVIEW: Pin versions compatible with Notebook 6
 echo "Installing compatible versions for nglview and ipywidgets..."
 pip install "ipywidgets>=7.7.1,<8.0"
 pip install "nglview>=2.7.7,<3.0"
 
-# ---- FORCE NOTEBOOK 6 ----
-
-# Downgrading/pinning notebook to a compatible version for contrib extensions...
-
-echo "Downgrading/pinning notebook to a compatible version for contrib extensions..."
+# 4. PIN NOTEBOOK 6: Crucial for jupyter_contrib_nbextensions
+echo "Pinning notebook to version 6.5.x..."
 pip install "notebook>=6.5.0,<7.0"
 
-# Installing jupyter_contrib_nbextensions...
-
+# 5. Install Contrib Extensions package
 echo "Installing jupyter_contrib_nbextensions..."
 pip install jupyter_contrib_nbextensions
 
-# Installing IPython kernel...
-
+# 6. Setup Kernel
 echo "Installing IPython kernel..."
 python -m ipykernel install --sys-prefix
 
-# Installing and enabling Jupyter notebook extensions...
-
-echo "Installing and enabling Jupyter notebook extensions..."
+# 7. MANUALLY INSTALL AND ENABLE ASSETS
+# This part fixes the "model not found" error by moving JS files to the right place
+echo "Registering and enabling nbextensions..."
 jupyter contrib nbextension install --sys-prefix
 
-# Enabling core extensions...
-
-echo "Enabling core extensions..."
+# Register widgetsnbextension (for ipywidgets)
+jupyter nbextension install --py --sys-prefix widgetsnbextension
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
+
+# Register nglview specifically
+jupyter nbextension install --py --sys-prefix nglview
 jupyter nbextension enable --py --sys-prefix nglview
 
-# Enabling other contrib extensions...
-
-echo "Enabling other contrib extensions..."
+# 8. Enable chosen Contrib Extensions
+echo "Enabling specific contrib extensions..."
 jupyter nbextension enable scratchpad/main
 jupyter nbextension enable rubberband/main
 jupyter nbextension enable exercise2/main
 jupyter nbextension enable toggle_all_line_numbers/main
 jupyter nbextension enable execute_time/ExecuteTime
 jupyter nbextension enable latex_envs/latex_envs
-
-echo "postBuild script finished successfully."
 
 echo "postBuild script finished successfully."
