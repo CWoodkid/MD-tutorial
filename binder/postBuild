@@ -1,49 +1,29 @@
 #!/bin/bash
 set -ex
 
-# Log start
-echo "Starting postBuild script..."
+# 1. Clean up any pre-installed versions that might conflict
+pip uninstall -y nglview ipywidgets widgetsnbextension notebook
 
-# 1. Update core pip tools
-echo "Updating pip and installing wheel..."
-pip install --upgrade pip wheel
-
-# 2. Install primary Python packages
-echo "Installing primary Python packages..."
-pip install matplotlib MDAnalysis jupyter mdtraj plotext ipympl
-
-# 3. FIX FOR NGLVIEW: Pin versions compatible with Notebook 6
-echo "Installing compatible versions for nglview and ipywidgets..."
+# 2. Install the "Golden Trio" for Classic Notebook stability
+# These three versions are known to work perfectly together in 2026
 pip install "ipywidgets>=7.7.1,<8.0"
-pip install "nglview>=2.7.7,<3.0"
-
-# 4. PIN NOTEBOOK 6: Crucial for jupyter_contrib_nbextensions
-echo "Pinning notebook to version 6.5.x..."
+pip install "widgetsnbextension>=3.6.0,<4.0"
+pip install "nglview==2.7.7"
 pip install "notebook>=6.5.0,<7.0"
 
-# 5. Install Contrib Extensions package
-echo "Installing jupyter_contrib_nbextensions..."
-pip install jupyter_contrib_nbextensions
+# 3. Install other tutorial dependencies
+pip install matplotlib MDAnalysis mdtraj plotext ipympl jupyter_contrib_nbextensions
 
-# 6. Setup Kernel
-echo "Installing IPython kernel..."
-python -m ipykernel install --sys-prefix
-
-# 7. MANUALLY INSTALL AND ENABLE ASSETS
-# This part fixes the "model not found" error by moving JS files to the right place
-echo "Registering and enabling nbextensions..."
-jupyter contrib nbextension install --sys-prefix
-
-# Register widgetsnbextension (for ipywidgets)
+# 4. The "Model Found" Insurance Policy
+# We manually copy the JS files to the system path and user path
 jupyter nbextension install --py --sys-prefix widgetsnbextension
 jupyter nbextension enable --py --sys-prefix widgetsnbextension
 
-# Register nglview specifically
 jupyter nbextension install --py --sys-prefix nglview
 jupyter nbextension enable --py --sys-prefix nglview
 
-# 8. Enable chosen Contrib Extensions
-echo "Enabling specific contrib extensions..."
+# 5. Setup Contrib Extensions
+jupyter contrib nbextension install --sys-prefix
 jupyter nbextension enable scratchpad/main
 jupyter nbextension enable rubberband/main
 jupyter nbextension enable exercise2/main
@@ -51,4 +31,4 @@ jupyter nbextension enable toggle_all_line_numbers/main
 jupyter nbextension enable execute_time/ExecuteTime
 jupyter nbextension enable latex_envs/latex_envs
 
-echo "postBuild script finished successfully."
+echo "Build complete."
